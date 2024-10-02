@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
+
 import logging
-from prompts import SYSTEM_PROMPT, DOC_SUMMARIZATION_PROMPT
-from llm_inference import get_llm_output
+from .prompts import SYSTEM_PROMPT, DOC_SUMMARIZATION_PROMPT
+from .llm_inference import get_llm_output
 
 class CodeData:
     

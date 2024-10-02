@@ -1,8 +1,10 @@
-from python_parsers import get_all_calls, get_all_imports, parse_commented_function, same_ast_with_reason, remove_docstring, replace_func
-from get_code_docs import CodeData, get_reference_docs_custom_functions, get_shortened_docs
-from prompts import SYSTEM_PROMPT, DOC_GENERATION_PROMPT
-from constants import TOK_COUNT
-from llm_inference import get_llm_output
+#!/usr/bin/env python3
+
+from .python_parsers import get_all_calls, get_all_imports, parse_commented_function, same_ast_with_reason, remove_docstring, replace_func
+from .get_code_docs import CodeData, get_reference_docs_custom_functions, get_shortened_docs
+from .prompts import SYSTEM_PROMPT, DOC_GENERATION_PROMPT
+from .constants import TOK_COUNT
+from .llm_inference import get_llm_output
 
 import argparse
 from argparse import RawTextHelpFormatter

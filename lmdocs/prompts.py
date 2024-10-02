@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def format_docs(ref_docs):
     """
     Formats a list of reference documentation into a structured string.

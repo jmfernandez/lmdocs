@@ -1,16 +1,18 @@
+#!/usr/bin/env python3
+
 import ast
 from collections import deque
-from constants import CALLS_TO_INGORE
 import re
 from itertools import zip_longest
 from typing import Union
-from get_code_docs import CodeData
 import logging
 import tokenize
 import copy
 import subprocess
 import sys
 
+from .constants import CALLS_TO_INGORE
+from .get_code_docs import CodeData
 
 def to_remove(call_str):
     """

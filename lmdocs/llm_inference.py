@@ -1,4 +1,7 @@
-from constants import MAX_TOKENS, TEMPERATURE,STOP_TOKENS, OPENAI, LOCAL, TOK_COUNT
+#!/usr/bin/env python3
+
+from .constants import MAX_TOKENS, TEMPERATURE,STOP_TOKENS, OPENAI, LOCAL, TOK_COUNT
+
 from collections import Counter
 import logging
 import requests

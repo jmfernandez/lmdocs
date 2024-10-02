@@ -1,7 +1,9 @@
-from get_code_docs import CodeData, get_reference_docs_simple_functions, get_reference_docs_custom_functions, get_shortened_docs
-from constants import LOCAL, OPENAI
-from llm_inference import get_local_llm_name
-from utils import get_args, generate_report, get_code_dependancies_and_imports, generate_documentation_for_custom_calls, replace_modified_functions
+#!/usr/bin/env python3
+
+from lmdocs.get_code_docs import CodeData, get_reference_docs_simple_functions, get_reference_docs_custom_functions, get_shortened_docs
+from lmdocs.constants import LOCAL, OPENAI
+from lmdocs.llm_inference import get_local_llm_name
+from lmdocs.utils import get_args, generate_report, get_code_dependancies_and_imports, generate_documentation_for_custom_calls, replace_modified_functions
 
 import logging
 
