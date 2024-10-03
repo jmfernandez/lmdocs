@@ -61,6 +61,11 @@ def get_args():
     )
 
     parser.add_argument(
+        "--local-model",
+        help="Which model to use in local mode."
+    )
+
+    parser.add_argument(
         "-p", "--port",
         type=int,
         help="Port where Local LLM server is hosted"
@@ -219,7 +224,7 @@ def get_code_dependancies_and_imports(path):
     return code_dependancies, import_stmts
 
 
-def generate_documentation_for_custom_calls(code_dependancies, llm_mode, args):
+def generate_documentation_for_custom_calls(code_dependancies, llm_mode, model_name, args):
     """
     Generate documentation for custom functions/methods/classes.
 
@@ -258,6 +263,7 @@ def generate_documentation_for_custom_calls(code_dependancies, llm_mode, args):
                     get_reference_docs_custom_functions(least_dep_func, code_dependancies)
                 ),
                 llm_mode,
+                model_name,
                 args,
             )
             total_tokens += used_toks  # Update total tokens used
@@ -290,7 +296,7 @@ def generate_documentation_for_custom_calls(code_dependancies, llm_mode, args):
         if code_dependancies[least_dep_func][CodeData.DOC] != '-':
             code_dependancies.add(
                 least_dep_func, 
-                {CodeData.DOC_SHORT: get_shortened_docs(least_dep_func, CodeData.DOC, args.ref_doc, llm_mode, args)}
+                {CodeData.DOC_SHORT: get_shortened_docs(least_dep_func, CodeData.DOC, args.ref_doc, llm_mode, model_name, args)}
             )            
 
         custom_funcs.remove(least_dep_func)  # Remove the processed function from the list

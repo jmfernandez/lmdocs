@@ -1,4 +1,8 @@
 # lmdocs: Generative AI for code documentation :brain: :arrow_right: :computer: :snake:
+
+**DISCLAIMER**: This repo is a fork from the original one at https://github.com/MananSoni42/lmdocs , in order to improve local model handling and fix the related issues.
+
+
 `lmdocs` automatically generates documentation for your Python code using LLMs.
 
 ( [Features](#features) | [Examples](#lmdocs-in-action-hammer) | [Quickstart :rocket:](#quickstart-rocket) | [How it works](#how-it-works) | [Additional options :gear:](#additional-options-gear) | [Caveats and limitations](#caveats-and-limitations) )
@@ -173,7 +177,7 @@ If they don't match, retry the generation and verification process (up to three 
 
 ### Additional options :gear:
 ```bash
-usage: lmdocs.py [-h] [-v] [--openai_key OPENAI_KEY] [--openai_key_env OPENAI_KEY_ENV] [--openai_model {gpt-3.5-turbo,gpt-4-turbo,gpt-4o}] [-p PORT]
+usage: lmdocs.py [-h] [-v] [--openai_key OPENAI_KEY] [--openai_key_env OPENAI_KEY_ENV] [--openai_model {gpt-3.5-turbo,gpt-4-turbo,gpt-4o}] [-p PORT] [--local-model LOCAL_MODEL]
                  [--ref_doc {truncate,summarize,full}] [--max_retries MAX_RETRIES] [--temperature TEMPERATURE] [--max_tokens MAX_TOKENS]
                  path
 
@@ -190,6 +194,7 @@ optional arguments:
   --openai_model {gpt-3.5-turbo,gpt-4-turbo,gpt-4o}
                         Which openAI model to use. Supported models are ['gpt-3.5-turbo', 'gpt-4-turbo', 'gpt-4o']            
                         gpt-3.5-turbo is used by default
+  --local-model         Which model from local ollama server to use (it also needs the port).
   -p PORT, --port PORT  Port where Local LLM server is hosted
   --ref_doc {truncate,summarize,full}
                         Strategy to process reference documentation. Supported choices are:            

@@ -316,7 +316,7 @@ def get_reference_docs_custom_functions(func, code_dependancies):
     return ref_docs  # Return the list of reference documentation
 
 
-def get_summarized_docs(func_name, doc_str, mode, args):
+def get_summarized_docs(func_name, doc_str, mode, model_name, args):
     """
     Generate a summarized version of the documentation using an LLM.
 
@@ -332,7 +332,7 @@ def get_summarized_docs(func_name, doc_str, mode, args):
     Raises:
     - ValueError: If any of the inputs are invalid or if the LLM returns an error
     """
-    return get_llm_output(SYSTEM_PROMPT, DOC_SUMMARIZATION_PROMPT(func_name, doc_str), mode, args)
+    return get_llm_output(SYSTEM_PROMPT, DOC_SUMMARIZATION_PROMPT(func_name, doc_str), mode, model_name, args)
 
 
 def get_truncated_docs(func_name, doc_str):
@@ -361,7 +361,7 @@ def get_truncated_docs(func_name, doc_str):
     return trunc_doc_str
 
 
-def get_shortened_docs(func_name, doc_str, mode, llm_mode, args):
+def get_shortened_docs(func_name, doc_str, mode, llm_mode, model_name, args):
     """
     Get a shortened version of the documentation based on the specified mode.
 
@@ -383,7 +383,7 @@ def get_shortened_docs(func_name, doc_str, mode, llm_mode, args):
         return doc_str
 
     if mode == 'summarize':
-        return get_summarized_docs(func_name, doc_str, llm_mode, args)
+        return get_summarized_docs(func_name, doc_str, llm_mode, model_name, args)
     elif mode == 'truncate':
         return get_truncated_docs(func_name, doc_str)
     elif mode == 'full':

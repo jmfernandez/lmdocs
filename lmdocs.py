@@ -36,7 +36,7 @@ def main():
 
     # Determine the language model mode (local or OpenAI)
     llm_mode = LOCAL if args.port else OPENAI
-    model_name = get_local_llm_name(args.port) if llm_mode == LOCAL else args.openai_model
+    model_name = get_local_llm_name(args.port, args.local_model) if llm_mode == LOCAL else args.openai_model
     logging.info(f'Using {llm_mode} LLM: {model_name}')  # Log the LLM being used
 
     # Get code dependencies and import statements from the specified path
@@ -58,11 +58,11 @@ def main():
 
         code_dependancies.add(
             func,
-            {CodeData.DOC_SHORT: get_shortened_docs(func, known_doc, args.ref_doc, llm_mode, args)}
+            {CodeData.DOC_SHORT: get_shortened_docs(func, known_doc, args.ref_doc, llm_mode, model_name, args)}
         )
 
     # Generate documentation for custom calls
-    generate_documentation_for_custom_calls(code_dependancies, llm_mode, args)
+    generate_documentation_for_custom_calls(code_dependancies, llm_mode, model_name, args)
 
     # Replace the modified functions in the original code
     replace_modified_functions(code_dependancies, args.path)

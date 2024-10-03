@@ -28,7 +28,7 @@ def clean_output(out):
     return out.strip()
 
 
-def get_local_llm_name(port):
+def get_local_llm_name(port, requested_model_name: "Optional[str]" = None):
     """
     Retrieve the local LLM (Large Language Model) name from a given port.
 
@@ -41,14 +41,22 @@ def get_local_llm_name(port):
     Raises:
     Exception: If there is any error while accessing the local server endpoint or processing the response.
     """
-    r = requests.get(f'http://localhost:{port}/v1/models')
+    service = f'http://localhost:{port}'
+    r = requests.get(service + '/v1/models')
     output = '-'
     try:
         # Attempt to extract the model name from the response
-        output = r.json()['data'][0]['id']
+        models = r.json()["data"]
+        for model in models:
+            if model["object"] == "model" and ((requested_model_name is None) or (model["id"] in (requested_model_name, requested_model_name + ":latest") )):
+                output = model["id"]
+                break
+                
+        else:
+            raise KeyError(f"Model {requested_model_name} not found at {service}")
     except Exception as e:
         # Raise an exception if there's an error in the request or response processing
-        raise Exception(f'Error while accessing http://localhost:{port}/v1/models: {e}')
+        raise Exception(f'Error while accessing {service}/v1/models: {e}')
     
     return output
     
@@ -98,6 +106,7 @@ def get_llm_api_output(url, headers, model, system_prompt, prompt, temperature, 
     output = '-'
     try:
         # Extract the output content and usage statistics from the response
+        print(json.dumps(r.json(), indent=4))
         output = r.json()['choices'][0]['message']['content'].lstrip('\n').strip('\n').strip()
         usage = Counter(r.json()['usage'])
     except Exception as e:
@@ -107,7 +116,7 @@ def get_llm_api_output(url, headers, model, system_prompt, prompt, temperature, 
     return clean_output(output), usage
 
 
-def get_llm_output(system_prompt, prompt, mode, args):
+def get_llm_output(system_prompt, prompt, mode, model_name, args):
     """
     Generates the output from a language model based on given prompts and configuration.
 
@@ -132,12 +141,12 @@ def get_llm_output(system_prompt, prompt, mode, args):
             "Content-Type": "application/json",
             "Authorization": f"Bearer {openai_key}",
         }
-        model = args.openai_model
+        model = model_name
     elif mode == LOCAL:
         # Use a local server for accessing the language model
         url = f'http://localhost:{args.port}/v1/chat/completions'
         headers = {}
-        model = 'dummy'
+        model = model_name
     else:
         # Raise an exception if the mode is not recognized
         raise Exception(f'Unknown mode: `{mode}` for LLM inference')
